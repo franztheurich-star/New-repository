@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#19183f" />
+  <title>Canaletto — Franz lädt ein</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #19183f;
+      --ink-2: #272456;
+      --paper: #fff8e9;
+      --paper-2: #fff0cc;
+      --coral: #ff654f;
+      --sun: #ffd166;
+      --mint: #8be1c7;
+      --lilac: #c9b7ff;
+      --white: #fffdf7;
+      --line: rgba(25, 24, 63, .16);
+      --shadow: 0 18px 50px rgba(25, 24, 63, .14);
+      --display: 'Bebas Neue', Impact, sans-serif;
+      --body: 'DM Sans', Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    a { color: inherit; }
+    button, input, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 4px solid var(--sun); outline-offset: 4px; }
+
+    .topbar {
+      position: absolute;
+      z-index: 5;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      max-width: 1280px;
+      margin: auto;
+      padding: 24px clamp(20px, 5vw, 72px);
+      color: var(--white);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .65rem;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .brand-mark {
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--coral);
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .nav {
+      display: flex;
+      gap: 1.2rem;
+      font-size: .77rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .nav a { text-decoration: none; opacity: .78; transition: opacity .2s ease; }
+    .nav a:hover { opacity: 1; }
+
+    .hero {
+      position: relative;
+      min-height: 760px;
+      display: flex;
+      align-items: center;
+      padding: 130px clamp(20px, 5vw, 72px) 72px;
+      background:
+        radial-gradient(circle at 75% 22%, rgba(201,183,255,.25), transparent 19rem),
+        radial-gradient(circle at 15% 85%, rgba(139,225,199,.16), transparent 25rem),
+        var(--ink);
+      color: var(--white);
+      isolation: isolate;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      opacity: .2;
+      background-image: radial-gradient(rgba(255,255,255,.4) .7px, transparent .7px);
+      background-size: 17px 17px;
+      mask-image: linear-gradient(to bottom, #000, transparent 88%);
+    }
+    .hero-inner { width: min(1136px, 100%); margin: auto; position: relative; }
+    .hero-copy { width: min(720px, 100%); position: relative; z-index: 2; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      margin: 0 0 1.2rem;
+      color: var(--sun);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ''; width: 32px; height: 2px; background: var(--sun); }
+    h1, h2, h3 { margin: 0; font-weight: 400; }
+    h1 {
+      max-width: 690px;
+      font-family: var(--display);
+      font-size: clamp(4.1rem, 10vw, 8.9rem);
+      line-height: .86;
+      letter-spacing: .012em;
+      text-wrap: balance;
+    }
+    .hero-lede {
+      max-width: 550px;
+      margin: 2rem 0 2rem;
+      color: rgba(255,253,247,.8);
+      font-size: clamp(1rem, 1.8vw, 1.22rem);
+    }
+    .hero-lede strong { color: var(--white); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .85rem; align-items: center; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      min-height: 50px;
+      padding: .85rem 1.15rem;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
+    }
+    .button:hover { transform: translateY(-3px); }
+    .button-primary { background: var(--coral); color: var(--ink); box-shadow: 0 10px 22px rgba(255,101,79,.24); }
+    .button-primary:hover { background: #ff806d; }
+    .button-ghost { color: var(--white); border-color: rgba(255,255,255,.28); }
+    .button-ghost:hover { background: rgba(255,255,255,.1); }
+
+    .event-card {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      gap: 0;
+      width: fit-content;
+      margin-top: 3rem;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 12px;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+    .event-stat { padding: 1rem 1.3rem; min-width: 145px; border-right: 1px solid rgba(255,255,255,.16); }
+    .event-stat:last-child { border-right: 0; }
+    .event-stat small { display: block; margin-bottom: .28rem; color: var(--sun); font-size: .66rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .event-stat strong { display: block; font-size: 1rem; }
+
+    .ticket {
+      position: absolute;
+      z-index: 1;
+      right: 1%;
+      top: 6%;
+      width: min(280px, 35vw);
+      aspect-ratio: .73;
+      padding: 1.4rem;
+      color: var(--ink);
+      background: var(--sun);
+      transform: rotate(7deg);
+      box-shadow: 22px 28px 0 rgba(0,0,0,.15);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 98%, 2% 96%, 0 94%, 2% 92%, 0 90%, 2% 88%, 0 86%, 2% 84%, 0 82%, 2% 80%, 0 78%, 2% 76%, 0 74%, 2% 72%, 0 70%, 2% 68%, 0 66%, 2% 64%, 0 62%, 2% 60%, 0 58%, 2% 56%, 0 54%, 2% 52%, 0 50%, 2% 48%, 0 46%, 2% 44%, 0 42%, 2% 40%, 0 38%, 2% 36%, 0 34%, 2% 32%, 0 30%, 2% 28%, 0 26%, 2% 24%, 0 22%, 2% 20%, 0 18%, 2% 16%, 0 14%, 2% 12%, 0 10%, 2% 8%, 0 6%, 2% 4%, 0 2%);
+    }
+    .ticket::after { content: ''; position: absolute; inset: 16px; border: 1px solid rgba(25,24,63,.4); pointer-events: none; }
+    .ticket-top { display: flex; justify-content: space-between; position: relative; z-index: 1; font-size: .65rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .ticket-title { position: relative; z-index: 1; margin-top: 6rem; font-family: var(--display); font-size: 4.5rem; line-height: .8; letter-spacing: .04em; }
+    .ticket-meta { position: absolute; z-index: 1; left: 1.4rem; right: 1.4rem; bottom: 1.7rem; display: flex; justify-content: space-between; font-size: .7rem; font-weight: 700; text-transform: uppercase; }
+    .ticket-scribble { position: absolute; z-index: 1; right: 24px; top: 42%; font-size: 2.1rem; transform: rotate(-12deg); }
+
+    .tram {
+      position: absolute;
+      right: 0;
+      bottom: 54px;
+      width: min(540px, 58vw);
+      height: 104px;
+      z-index: 2;
+      color: var(--coral);
+    }
+    .tram::before { content: ''; position: absolute; left: 0; right: -10vw; bottom: 0; height: 2px; background: rgba(255,253,247,.36); box-shadow: 0 9px 0 rgba(255,253,247,.12); }
+    .tram-body { position: absolute; right: 0; bottom: 17px; width: 86%; height: 64px; border: 3px solid currentColor; border-radius: 10px 18px 3px 3px; background: rgba(255,101,79,.13); }
+    .tram-body::before { content: ''; position: absolute; left: 12px; right: 72px; top: 12px; height: 25px; background: repeating-linear-gradient(90deg, var(--mint) 0 42px, transparent 42px 49px); opacity: .9; }
+    .tram-body::after { content: 'DRESDEN'; position: absolute; left: 14px; bottom: 6px; color: var(--sun); font-size: .62rem; font-weight: 700; letter-spacing: .23em; }
+    .tram-wheel { position: absolute; bottom: 5px; width: 20px; height: 20px; border: 3px solid currentColor; border-radius: 50%; background: var(--ink); }
+    .tram-wheel.one { right: 72%; } .tram-wheel.two { right: 15%; }
+    .tram-pole { position: absolute; right: 31%; bottom: 81px; width: 3px; height: 49px; background: currentColor; transform: rotate(-15deg); transform-origin: bottom; }
+    .tram-sparks { position: absolute; right: 35%; bottom: 126px; color: var(--sun); font-size: 1.35rem; letter-spacing: .2em; }
+
+    .section { padding: 108px clamp(20px, 5vw, 72px); }
+    .section-inner { width: min(1136px, 100%); margin: auto; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.6rem; }
+    .section-kicker { margin: 0 0 .65rem; color: var(--coral); font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+    h2 { font-family: var(--display); font-size: clamp(3rem, 7vw, 6rem); line-height: .9; letter-spacing: .025em; }
+    .heading-note { max-width: 280px; margin: 0; font-size: .94rem; }
+
+    .why { background: var(--paper); }
+    .why-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(2rem, 7vw, 7rem); align-items: center; }
+    .why-copy { font-size: clamp(1.25rem, 2.7vw, 2rem); line-height: 1.28; text-wrap: balance; }
+    .why-copy em { color: var(--coral); font-style: normal; }
+    .scribble-card { position: relative; min-height: 300px; display: grid; place-items: center; padding: 2rem; border-radius: 18px; background: var(--mint); transform: rotate(-2deg); box-shadow: var(--shadow); overflow: hidden; }
+    .scribble-card::before { content: '✳'; position: absolute; top: -50px; right: -20px; color: rgba(25,24,63,.14); font-size: 14rem; line-height: 1; }
+    .scribble-card p { position: relative; max-width: 260px; margin: 0; font-family: var(--display); font-size: 3.8rem; line-height: .9; text-align: center; transform: rotate(4deg); }
+
+    .plan { background: var(--paper-2); }
+    .plan-lede { max-width: 560px; margin: 0 0 2.4rem; font-size: 1.08rem; }
+    .plan-lede strong { color: var(--coral); }
+    .stations { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 2px solid var(--ink); }
+    .station { min-height: 180px; padding: 1.2rem 1.2rem 1rem 0; border-right: 1px solid var(--line); }
+    .station:not(:first-child) { padding-left: 1.2rem; }
+    .station:last-child { border-right: 0; }
+    .station-time { color: var(--coral); font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .station h3 { margin: .8rem 0 .5rem; font-size: 1.12rem; font-weight: 700; }
+    .station p { margin: 0; font-size: .9rem; }
+
+    .info { background: var(--ink-2); color: var(--white); }
+    .info .section-kicker { color: var(--sun); }
+    .info-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 3rem; align-items: start; }
+    .info-intro { max-width: 310px; color: rgba(255,253,247,.72); }
+    .info-intro h2 { color: var(--white); }
+    .info-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .info-card { min-height: 142px; padding: 1.15rem; border: 1px solid rgba(255,255,255,.18); border-radius: 12px; background: rgba(255,255,255,.06); }
+    .info-card.weather { grid-column: 1 / -1; background: var(--lilac); color: var(--ink); border: 0; }
+    .info-label { display: flex; align-items: center; gap: .55rem; margin-bottom: .6rem; color: var(--sun); font-size: .7rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+    .weather .info-label { color: var(--ink); }
+    .info-card p { margin: 0; font-size: .96rem; }
+    .weather-row { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-top: .5rem; }
+    .weather-day { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .9rem 1rem; border-radius: 10px; background: rgba(255,255,255,.42); }
+    .weather-day strong { display: block; font-size: 1rem; }
+    .weather-day small { display: block; font-size: .76rem; opacity: .72; }
+    .weather-icon { font-size: 2rem; line-height: 1; }
+    .temp { font-family: var(--display); font-size: 2.25rem; line-height: 1; }
+    .weather-source { display: block; margin-top: .7rem; font-size: .68rem; opacity: .72; }
+    .weather-source a { text-underline-offset: 3px; }
+
+    .rsvp { position: relative; background: var(--coral); overflow: hidden; }
+    .rsvp::after { content: 'JA!'; position: absolute; right: -20px; top: -50px; color: rgba(255,255,255,.1); font-family: var(--display); font-size: 18rem; line-height: 1; transform: rotate(12deg); pointer-events: none; }
+    .rsvp-inner { position: relative; z-index: 1; }
+    .rsvp .section-heading { align-items: start; }
+    .rsvp h2 { max-width: 490px; }
+    .rsvp-note { max-width: 270px; margin: 0; font-size: .95rem; }
+    .rsvp-layout { display: grid; grid-template-columns: .85fr 1.15fr; gap: 2rem; align-items: start; }
+    .choices { display: grid; gap: .75rem; }
+    .choice { display: flex; align-items: center; gap: .8rem; width: 100%; padding: 1rem 1.1rem; border: 2px solid var(--ink); border-radius: 10px; background: transparent; color: var(--ink); cursor: pointer; text-align: left; font-weight: 700; transition: background .2s ease, color .2s ease, transform .2s ease; }
+    .choice:hover { transform: translateX(5px); }
+    .choice[aria-pressed="true"] { background: var(--ink); color: var(--white); }
+    .choice-symbol { display: grid; place-items: center; width: 28px; height: 28px; border: 2px solid currentColor; border-radius: 50%; font-size: .8rem; }
+    .form-box { padding: 1.25rem; border-radius: 14px; background: var(--paper); box-shadow: var(--shadow); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
+    .field { display: grid; gap: .4rem; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .field input, .field textarea { width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: .78rem .85rem; background: var(--white); color: var(--ink); }
+    .field textarea { min-height: 94px; resize: vertical; }
+    .field input::placeholder, .field textarea::placeholder { color: rgba(25,24,63,.52); }
+    .radio-row { display: flex; flex-wrap: wrap; gap: .55rem; }
+    .radio-pill { display: inline-flex; align-items: center; gap: .35rem; padding: .44rem .7rem; border: 1px solid var(--line); border-radius: 999px; background: var(--white); font-size: .82rem; cursor: pointer; }
+    .radio-pill input { accent-color: var(--coral); }
+    .submit-row { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; margin-top: 1rem; }
+    .submit-row .button-primary { border: 0; background: var(--ink); color: var(--white); box-shadow: none; }
+    .submit-row .button-primary:hover { background: var(--ink-2); }
+    .whatsapp { color: var(--ink); border: 1px solid var(--line); }
+    .whatsapp:hover { background: var(--paper-2); }
+    .status { min-height: 1.6em; margin: .95rem 0 0; color: var(--ink); font-weight: 700; }
+
+    footer { padding: 28px clamp(20px, 5vw, 72px); background: var(--ink); color: rgba(255,253,247,.7); font-size: .78rem; }
+    .footer-inner { width: min(1136px, 100%); margin: auto; display: flex; justify-content: space-between; gap: 1rem; }
+    .footer-inner strong { color: var(--sun); }
+
+    @media (max-width: 900px) {
+      .hero { min-height: 820px; }
+      .ticket { right: -5%; top: 12%; width: 220px; opacity: .82; }
+      .ticket-title { font-size: 3.6rem; }
+      .tram { width: 62vw; opacity: .7; }
+      .why-grid, .info-grid, .rsvp-layout { grid-template-columns: 1fr; }
+      .why-grid { gap: 2rem; }
+      .scribble-card { min-height: 230px; }
+      .info-intro { max-width: 520px; }
+    }
+    @media (max-width: 620px) {
+      .topbar { padding-top: 18px; }
+      .nav { display: none; }
+      .hero { min-height: 790px; padding-top: 120px; }
+      h1 { font-size: clamp(4rem, 20vw, 6rem); }
+      .ticket { top: 7%; right: -24%; width: 180px; transform: rotate(10deg); opacity: .65; }
+      .ticket-title { margin-top: 4rem; font-size: 3rem; }
+      .event-card { width: 100%; grid-template-columns: 1fr 1fr 1fr; }
+      .event-stat { min-width: 0; padding: .8rem .65rem; }
+      .event-stat strong { font-size: .84rem; }
+      .event-stat small { font-size: .58rem; letter-spacing: .08em; }
+      .tram { right: -22%; bottom: 35px; width: 100vw; opacity: .5; }
+      .section { padding-top: 78px; padding-bottom: 78px; }
+      .section-heading { display: block; }
+      .heading-note { margin-top: 1rem; }
+      .stations { grid-template-columns: 1fr 1fr; }
+      .station { min-height: 155px; border-bottom: 1px solid var(--line); }
+      .station:nth-child(2) { border-right: 0; }
+      .station:nth-child(3), .station:nth-child(4) { border-bottom: 0; }
+      .station:nth-child(3) { padding-left: 0; }
+      .info-cards { grid-template-columns: 1fr; }
+      .info-card.weather { grid-column: auto; }
+      .weather-row { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .footer-inner { display: block; }
+      .footer-inner span { display: block; margin-top: .45rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar" aria-label="Seitennavigation">
+    <a class="brand" href="#top" aria-label="Zum Seitenanfang"><span class="brand-mark">✦</span> Franz lädt ein</a>
+    <nav class="nav">
+      <a href="#warum">Warum</a>
+      <a href="#plan">Plan</a>
+      <a href="#infos">Infos</a>
+      <a href="#rsvp">Zusage</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">Canaletto Stadtfest · Dresden</p>
+          <h1 id="hero-title">Dresden: schöner, lauter, heller — und du kannst mit dabei sein</h1>
+          <p class="hero-lede">Ich habe einen ganz einfachen Plan: <strong>zusammen losziehen, gut essen, Musik hören</strong> und so tun, als hätten wir den Überblick. Spoiler: Werden wir nicht. Aber es wird gut.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#rsvp">Ich bin dabei <span aria-hidden="true">↗</span></a>
+            <a class="button button-ghost" href="#infos">Die wichtigen Dinge</a>
+          </div>
+          <div class="event-card" aria-label="Veranstaltungsdetails">
+            <div class="event-stat"><small>Wann</small><strong>Fr, 14.08.2026</strong></div>
+            <div class="event-stat"><small>Wo</small><strong>Altmarkt, Dresden</strong></div>
+            <div class="event-stat"><small>Ab</small><strong>16 Uhr · open end</strong></div>
+          </div>
+        </div>
+
+        <aside class="ticket" aria-label="Festival-Ticket-Illustration">
+          <div class="ticket-top"><span>Privatbande</span><span>2026</span></div>
+          <div class="ticket-title">CAN<br>ALET<br>TO</div>
+          <div class="ticket-scribble">✺</div>
+          <div class="ticket-meta"><span>Altmarkt</span><span>16:00 → ∞</span></div>
+        </aside>
+        <div class="tram" aria-hidden="true">
+          <span class="tram-sparks">· ✦ ·</span>
+          <span class="tram-pole"></span>
+          <span class="tram-body"></span>
+          <span class="tram-wheel one"></span><span class="tram-wheel two"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section why" id="warum" aria-labelledby="why-title">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div><p class="section-kicker">Der offizielle inoffizielle Grund</p><h2 id="why-title">Warum du dabei sein solltest</h2></div>
+          <p class="heading-note">Weil „ich bleib nur kurz“ auf Stadtfesten ungefähr so zuverlässig ist wie ein voller Handy-Akku.</p>
+        </div>
+        <div class="why-grid">
+          <p class="why-copy">Dresden macht die Lichter an, die Bühnen drehen auf — und wir sollten <em>mittendrin</em> sein. Ich habe keine Ahnung, ob wir am Ende bei der Hauptbühne, an einem Getränkestand oder irgendwo an der Elbe landen – aber genau deshalb sollten wir hingehen. Komm mit, bring deine beste Laune und meinetwegen auch deine schlechtesten Tanzmoves. Der Abend wird sowieso legendär, sobald wir gemeinsam versuchen, uns nicht zu verlieren.</p>
+          <div class="scribble-card"><p>Ein Abend.<br>Viele Snacks.<br>Null Stress.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section plan" id="plan" aria-labelledby="plan-title">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div><p class="section-kicker">Planung mit maximaler Flexibilität</p><h2 id="plan-title">Was passiert?</h2></div>
+        </div>
+        <p class="plan-lede">Der genaue Plan entsteht vor Ort — <strong>Hauptsache, wir sind zusammen unterwegs und der Alkohol geht uns nicht aus.</strong></p>
+        <div class="stations">
+          <article class="station"><div class="station-time">16:00 Uhr</div><h3>Treffen</h3><p>Wir sammeln uns an der Haltestelle am Altmarkt. Wer zu spät kommt, bekommt eine Sprachnachricht.</p></article>
+          <article class="station"><div class="station-time">Danach</div><h3>Runde drehen</h3><p>Einmal schauen, was los ist, welche Bühne ruft und wo es verdächtig gut riecht.</p></article>
+          <article class="station"><div class="station-time">Abend</div><h3>Musik &amp; Snacks</h3><p>Gemeinsam essen, anstoßen, quatschen und den Überblick freiwillig abgeben.</p></article>
+          <article class="station"><div class="station-time">Open end</div><h3>Die Nacht entscheidet</h3><p>Wir bleiben, solange es Spaß macht — und finden uns hoffentlich alle wieder.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section info" id="infos" aria-labelledby="info-title">
+      <div class="section-inner info-grid">
+        <div class="info-intro"><p class="section-kicker">Kurz speichern, später glänzen</p><h2 id="info-title">Die wichtigen Dinge</h2><p>Alles, was du vor dem Losziehen wissen musst. Der Rest ist Dresdner Abendluft.</p></div>
+        <div class="info-cards">
+          <article class="info-card"><div class="info-label">⌖ Treffpunkt</div><p><strong>Haltestelle am Altmarkt</strong><br>Am Freitag, 14.08., ab 16 Uhr. Wenn du die Gruppe siehst: winken. Wenn nicht: anrufen.</p></article>
+          <article class="info-card"><div class="info-label">☀ Wetter</div><p><strong>Sommermodus an.</strong><br>Freitag und Samstag wird es sehr warm — Sonnenbrille gewinnt.</p></article>
+          <article class="info-card"><div class="info-label">◌ Outfit</div><p><strong>Whatever you want ;)</strong><br>Hauptsache bequem genug für viele Schritte und spontane Tanzeinlagen.</p></article>
+          <article class="info-card"><div class="info-label">✦ Mitbringen</div><p>Gute Laune, etwas zum Vorglühen und das nötige Kleingeld. Powerbank ist kein Luxus.</p></article>
+          <article class="info-card"><div class="info-label">☎ Kontakt</div><p>Die Leute anrufen, die ihr Handy noch nicht verloren — oder ein paar Prozente Akku haben.</p></article>
+          <article class="info-card weather" aria-label="Wettertrend für Freitag und Samstag">
+            <div class="info-label">☼ Wettertrend Dresden · Stand 11.08.2026</div>
+            <div class="weather-row">
+              <div class="weather-day"><div><strong>Freitag · 14.08.</strong><small>sonnig &amp; hochsommerlich</small></div><span class="weather-icon" aria-hidden="true">☀️</span><span class="temp">32°</span></div>
+              <div class="weather-day"><div><strong>Samstag · 15.08.</strong><small>warm &amp; festival-tauglich</small></div><span class="weather-icon" aria-hidden="true">☀️</span><span class="temp">33°</span></div>
+            </div>
+            <small class="weather-source">Wettertrend, kann sich ändern. Quelle: <a href="https://www.wetterdienst.de/Deutschlandwetter/Dresden/Vorhersage/10-Tage-Trend/" target="_blank" rel="noreferrer">Wetterdienst Dresden</a></small>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section rsvp" id="rsvp" aria-labelledby="rsvp-title">
+      <div class="section-inner rsvp-inner">
+        <div class="section-heading"><div><p class="section-kicker">Jetzt wird es offiziell</p><h2 id="rsvp-title">Bist du dabei?</h2></div><p class="rsvp-note">Ein Klick reicht. Der Rest kann bei einem Getränk besprochen werden.</p></div>
+        <div class="rsvp-layout">
+          <div class="choices" role="group" aria-label="Teilnahme auswählen">
+            <button class="choice" type="button" data-choice="Ja, ich bin dabei" aria-pressed="false"><span class="choice-symbol">✓</span><span>Ja, ich bin dabei</span></button>
+            <button class="choice" type="button" data-choice="Vielleicht" aria-pressed="false"><span class="choice-symbol">?</span><span>Vielleicht</span></button>
+            <button class="choice" type="button" data-choice="Diesmal nicht" aria-pressed="false"><span class="choice-symbol">–</span><span>Diesmal nicht</span></button>
+          </div>
+          <form class="form-box" id="rsvp-form">
+            <div class="form-grid">
+              <div class="field"><label for="name">Dein Name</label><input id="name" name="name" type="text" placeholder="z. B. Franz" autocomplete="name" /></div>
+              <div class="field"><label>Du kommst …</label><div class="radio-row"><label class="radio-pill"><input type="radio" name="company" value="allein" checked /> allein</label><label class="radio-pill"><input type="radio" name="company" value="mit Begleitung" /> mit Begleitung</label></div></div>
+              <div class="field full"><label for="companions">Anzahl Begleitpersonen</label><input id="companions" name="companions" type="number" min="0" max="10" value="0" /></div>
+              <div class="field full"><label for="message">Noch eine Nachricht?</label><textarea id="message" name="message" placeholder="Was du schon immer zum Stadtfest sagen wolltest …"></textarea></div>
+            </div>
+            <div class="submit-row"><button class="button button-primary" type="submit">Zusage abschicken <span aria-hidden="true">→</span></button><a class="button whatsapp" id="whatsapp-link" href="https://wa.me/?text=Ich%20bin%20beim%20Canaletto%20Stadtfest%20am%2014.08.2026%20dabei%20%E2%80%94%20Treffen%20um%2016%20Uhr%20am%20Altmarkt%20in%20Dresden.%20%F0%9F%8E%89" target="_blank" rel="noreferrer">Über WhatsApp antworten</a></div>
+            <p class="status" id="status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="footer-inner"><strong>Canaletto 2026 · Dresden</strong><span>Ich freu mich auf Dich und das gemeinsame Highlight des Jahres!</span></div></footer>
+
+  <script>
+    (() => {
+      let selectedChoice = '';
+      const choices = [...document.querySelectorAll('.choice')];
+      const form = document.getElementById('rsvp-form');
+      const status = document.getElementById('status');
+      const nameInput = document.getElementById('name');
+      const companionsInput = document.getElementById('companions');
+      const companyInputs = [...document.querySelectorAll('input[name="company"]')];
+      const whatsappLink = document.getElementById('whatsapp-link');
+
+      const updateWhatsApp = () => {
+        const name = nameInput.value.trim() || 'ich';
+        const company = document.querySelector('input[name="company"]:checked')?.value || 'allein';
+        const companions = Number(companionsInput.value || 0);
+        const extra = company === 'mit Begleitung' && companions > 0 ? ` Ich bringe ${companions} Begleitperson${companions === 1 ? '' : 'en'} mit.` : '';
+        const text = `Hey Franz, ${name} kommt ${selectedChoice ? `(${selectedChoice.toLowerCase()}) ` : ''}am 14.08.2026 ab 16 Uhr zum Canaletto Stadtfest an den Altmarkt in Dresden — ${company}.${extra} 🎉`;
+        whatsappLink.href = 'https://wa.me/?text=' + encodeURIComponent(text);
+      };
+
+      choices.forEach((choice) => {
+        choice.addEventListener('click', () => {
+          selectedChoice = choice.dataset.choice;
+          choices.forEach((item) => item.setAttribute('aria-pressed', item === choice ? 'true' : 'false'));
+          updateWhatsApp();
+          status.textContent = selectedChoice === 'Ja, ich bin dabei' ? 'Sehr gute Entscheidung. Jetzt noch kurz deinen Namen eintragen.' : selectedChoice === 'Vielleicht' ? 'Vielleicht ist völlig legitim. Trag dich trotzdem kurz ein.' : 'Schade — danke, dass du Bescheid gibst.';
+        });
+      });
+      [nameInput, companionsInput, ...companyInputs].forEach((input) => input.addEventListener('input', updateWhatsApp));
+      companyInputs.forEach((input) => input.addEventListener('change', updateWhatsApp));
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = nameInput.value.trim() || 'Du';
+        if (!selectedChoice) {
+          status.textContent = 'Wähle bitte zuerst aus, ob du dabei bist.';
+          choices[0].focus();
+          return;
+        }
+        const messages = {
+          'Ja, ich bin dabei': `Großartig, ${name} — ich freue mich auf dich! Treffpunkt: 16 Uhr am Altmarkt.`,
+          'Vielleicht': `Alles klar, ${name} — vielleicht sehen wir uns am Altmarkt. Gib einfach Bescheid, sobald du es weißt.`,
+          'Diesmal nicht': `Danke für die Rückmeldung, ${name}. Beim nächsten Mal bist du hoffentlich dabei!`
+        };
+        status.textContent = messages[selectedChoice];
+      });
+    })();
+  </script>
+</body>
+</html>
